@@ -29,7 +29,7 @@ export default {
       error(resp) {
         console.log(resp);
       }
-    })
+    });
 
     $.ajax({
       url: "http://127.0.0.1:3000/user/account/info/",
@@ -43,7 +43,23 @@ export default {
       error(resp) {
         console.log(resp);
       }
-    })
+    });
+
+    $.ajax({
+      url: "http://127.0.0.1:3000/user/account/register/",
+      type: "post",
+      data: {
+        username: "ls",
+        password: "789",
+        confirmedPassword: "789",
+      },
+      success(resp) {
+          console.log(resp);
+        },
+        error(resp) {
+          console.log(resp);
+        },
+    });
   },
 }
 </script>
