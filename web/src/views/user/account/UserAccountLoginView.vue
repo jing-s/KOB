@@ -23,7 +23,7 @@
 import ContentField from '../../../components/ContentField.vue'
 import { useStore } from 'vuex'
 import { ref } from 'vue'
-// import router from '../../../router/index'
+import router from '../../../router/index'
 
 export default {
     components: {
@@ -41,12 +41,12 @@ export default {
                 username: username.value,
                 password: password.value,
                 success(resp) {
-                    // store.dispatch("getinfo", {
-                    //     success() {
-                    //         router.push({ name: 'home' });
-                    //         console.log(store.state.user);
-                    //     }
-                    // })
+                    store.dispatch("getinfo", {
+                        success() {
+                            router.push({ name: 'home' });  //  重定向
+                            console.log(store.state.user);
+                        }
+                    })
                     console.log(resp);
                 },
                 error() {
