@@ -28,16 +28,16 @@
                 </ul>
               </li>
             </ul>
-            <ul class="navbar-nav" v-else>
+            <ul class="navbar-nav" v-else-if="!$store.state.user.pulling_info">
               <li class="nav-item dropdown">
                 <router-link class="nav-link" :to="{name: 'user_account_login'}" role="button">
                   登录
                 </router-link>
               </li>
               <li class="nav-item dropdown">
-                <!-- <router-link class="nav-link" :to="{name: 'user_register_login'}" role="button">
+                <router-link class="nav-link" :to="{name: 'user_account_register'}" role="button">
                   注册
-                </router-link> -->
+                </router-link>
               </li>
             </ul>
           </div>

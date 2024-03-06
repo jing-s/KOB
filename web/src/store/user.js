@@ -7,6 +7,7 @@ export default {
         photo: "",
         token: "",
         is_login: false,
+        pulling_info: true, //  是否正在拉取信息
     },
     getters: {},
     mutations: {
@@ -19,12 +20,15 @@ export default {
         updateToken(state, token) {
             state.token = token;
         },
-        logout(state){
+        logout(state) {
             state.id = "";
             state.username = "";
             state.photo = "";
             state.token = "";
             state.is_login= false;
+        },
+        updatePullingInfo(state, token) {
+            state.token = token;
         }
     },
     actions: {
@@ -38,6 +42,7 @@ export default {
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
+                        localStorage.setItem("jwt_token", resp.token);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
                     } else {
@@ -73,6 +78,7 @@ export default {
             });
         },
         logout(context) {
+            localStorage.removeItem("jwt_token");
             context.commit("logout");
         }
     },
