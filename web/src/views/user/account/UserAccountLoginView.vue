@@ -1,5 +1,6 @@
 <template>
-    <ContentField v-if="!$store.state.user.pulling_info">
+    <!-- <ContentField v-if="!$store.state.user.pulling_info">   //  无法显示login界面-->
+        <ContentField>
         <div class="row justify-content-md-center">
             <div class="col-3">
                 <form @submit.prevent="login">
@@ -37,10 +38,10 @@ export default {
 
         const jwt_token = localStorage.getItem("jwt_token");
         if (jwt_token) {
-            store.commit("updateToken", jwt_token); //  登录持久化
+            store.commit("updateToken", jwt_token);
             store.dispatch("getinfo", {
                 success() {
-                    router.push({ name: "home"});
+                    router.push({ name: "home" });
                     store.commit("updatePullingInfo", false);
                 },
                 error() {
@@ -56,14 +57,12 @@ export default {
             store.dispatch("login", {
                 username: username.value,
                 password: password.value,
-                success(resp) {
+                success() {
                     store.dispatch("getinfo", {
                         success() {
-                            router.push({ name: 'home' });  //  重定向
-                            console.log(store.state.user);
+                            router.push({ name: 'home' });
                         }
                     })
-                    console.log(resp);
                 },
                 error() {
                     error_message.value = "用户名或密码错误";
