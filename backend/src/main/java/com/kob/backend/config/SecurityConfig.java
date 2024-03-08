@@ -40,15 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/account/token/", "/user/account/register/").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyRequest().authenticated();
-
-        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/websocket/**");
     }
+
 }
-
-
