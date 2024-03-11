@@ -27,8 +27,8 @@ export default {
             state.token = "";
             state.is_login= false;
         },
-        updatePullingInfo(state, token) {
-            state.token = token;
+        updatePullingInfo(state, pulling_info) {    //  之前的token取不到是因为这里错了
+            state.pulling_info = pulling_info;     
         }
     },
     actions: {
