@@ -7,17 +7,20 @@
 <script>
 import { GameMap } from "../assets/scripts/GameMap";
 import { ref, onMounted } from 'vue';
+import { useStore } from "vuex";
+
 console.log("Hello, world!");
 
 export default {
     setup() {
+        const store = useStore();
         let parent = ref(null);
         let canvas = ref(null);
 
         onMounted(() => {
             console.log("new GameMap");
 
-            new GameMap(canvas.value.getContext('2d'), parent.value);
+            new GameMap(canvas.value.getContext('2d'), parent.value, store)
         });
 
         return {

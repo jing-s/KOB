@@ -1,12 +1,12 @@
 export default {
     state: {
-        status: "matching", //  matching表示匹配界面,playing表示对战界面
+        status: "matching",  // matching表示匹配界面，playing表示对战界面
         socket: null,
         opponent_username: "",
         opponent_photo: "",
+        gamemap: null,
     },
     getters: {
-
     },
     mutations: {
         updateSocket(state, socket) {
@@ -18,9 +18,13 @@ export default {
         },
         updateStatus(state, status) {
             state.status = status;
+        },
+        updateGamemap(state, gamemap) {
+            state.gamemap = gamemap;
         }
     },
+    actions: {
+    },
     modules: {
-
     }
 }
