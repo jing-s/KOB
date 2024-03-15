@@ -1,9 +1,10 @@
 package com.kob.backend.service.impl.user.bot;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kob.backend.mapper.BotMapper;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.User;
-import com.kob.backend.service.impl.UserDetailsImpl;
+import com.kob.backend.service.impl.utils.UserDetailsImpl;
 import com.kob.backend.service.user.bot.AddService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-@Service    // 不加Service报错无法自动装配。找不到 'AddService' 类型的 Bean。
+
+@Service
 public class AddServiceImpl implements AddService {
 
     @Autowired
@@ -32,13 +34,9 @@ public class AddServiceImpl implements AddService {
 
         Map<String, String> map = new HashMap<>();
 
-        if (title.isEmpty()) {
+        if (title == null || title.length() == 0) {
             map.put("error_message", "标题不能为空");
             return map;
-        }
-
-        if (description.isEmpty()) {
-            description = "这个用户很懒，什么也没讲";
         }
 
         if (title.length() > 100) {
@@ -46,12 +44,16 @@ public class AddServiceImpl implements AddService {
             return map;
         }
 
+        if (description == null || description.length() == 0) {
+            description = "这个用户很懒，什么也没留下~";
+        }
+
         if (description.length() > 300) {
             map.put("error_message", "Bot描述的长度不能大于300");
             return map;
         }
 
-        if (content.isEmpty()) {
+        if (content == null || content.length() == 0) {
             map.put("error_message", "代码不能为空");
             return map;
         }
@@ -61,11 +63,19 @@ public class AddServiceImpl implements AddService {
             return map;
         }
 
+        QueryWrapper<Bot> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", user.getId());
+        if (botMapper.selectCount(queryWrapper) >= 10) {
+            map.put("error_message", "每个用户最多只能创建10个Bot！");
+            return map;
+        }
+
         Date now = new Date();
-        Bot bot = new Bot(null, user.getId(), title, description, content,now, now);
+        Bot bot = new Bot(null, user.getId(), title, description, content, now, now);
 
         botMapper.insert(bot);
         map.put("error_message", "success");
+
         return map;
     }
 }
